@@ -62,18 +62,6 @@ class GIN2(torch.nn.Module):
         node_feature = node_feature  # [num_nodes, hidden_dim]
         return node_feature
 
-class ScalarMix(nn.Module):
-    def __init__(self, n_layers, dropout=0.1):
-        super().__init__()
-        self.weight = nn.Parameter(torch.zeros(n_layers))
-        self.dropout = nn.Dropout(dropout)
-
-    def forward(self, layer_hidden):  # list of [B, L, d]
-        norm_w = F.softmax(self.weight, dim=0)          # α_l
-        mixed = 0
-        for w, h in zip(norm_w, layer_hidden):
-            mixed = mixed + w * h
-        return self.dropout(mixed)      # [B, L, d]
 
 class RepeatedModule(nn.Module):
     
@@ -98,9 +86,6 @@ class RepeatedModule(nn.Module):
     
         self.dropout = nn.Dropout(dropout)
         self.dropout2 = nn.Dropout(dropout)
-
-        self.pep_scalar = ScalarMix(n_layers)     
-        self.prot_scalar = ScalarMix(n_layers)
 
         self.norm = nn.LayerNorm(300)
 
@@ -178,15 +163,6 @@ class RepeatedModule(nn.Module):
             prot_layer_embeddings.append(prot_enc)
             pep_layer_embeddings.append(pep_enc)
 
-        
-         # ---- 2. ScalarMix across layers ----
-        #    列表元素形状均为 [1, L, d]，直接送入即可
-        # pep_mix  = self.pep_scalar(pep_layer_embeddings)   # [1, Lp, d]
-        # prot_mix = self.prot_scalar(prot_layer_embeddings) # [1, Lr, d]
-
-        # （可选）再加残差：pep_mix += pep_layer_embeddings[-1]，看验证效果
-        # pep_mix  = self.norm(pep_mix  + pep_layer_embeddings[-1])
-        # prot_mix = self.norm(prot_mix + prot_layer_embeddings[-1]) 
         
         
         return prot_enc, pep_enc, sequence_attention_list, graph_attention_list,\

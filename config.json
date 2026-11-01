@@ -1,0 +1,58 @@
+{
+  "data": {
+    "splits_dir": "data",
+    "peptide_labels": "data/peptide_sites_label.json",
+    "protein_labels": "data/protein_sites_label.json",
+    "ncaa_peptides": "data/non_canonical_peptide_chains.txt"
+  },
+  "features": {
+    "peptide_graph_dir": "features/peptide_graph",
+    "protein_graph_dir": "features/protein_graph",
+    "protein_embedding_dir": "features/protT5",
+    "protein_mask_dir": "data/protein_masks"
+  },
+  "model": {
+    "edge_features": 39,
+    "node_features": 32,
+    "n_layers": 6,
+    "d_model": 300,
+    "n_head": 2,
+    "d_k": 150,
+    "d_v": 300,
+    "d_inner": 300,
+    "dropout": 0.1
+  },
+  "training": {
+    "seed": 2024,
+    "epochs": 20,
+    "learning_rate": 0.0001,
+    "scheduler": "cosine",
+    "scheduler_t_max": 30,
+    "min_learning_rate": 1e-07,
+    "selection": "val_loss",
+    "num_workers": 0,
+    "gradient_clip": 1,
+    "class_ema_decay": 0.9,
+    "queue_size": 8000,
+    "temperature": 0.07,
+    "adaptive": {
+      "base_prot": 0.2,
+      "base_pep": 0.1,
+      "warmup_steps": 400,
+      "ema_decay": 0.9,
+      "target_ratio": 0.3,
+      "beta": 0.5,
+      "min_lambda": 0.02,
+      "max_lambda": 2,
+      "use_cosine_warmup": false
+    }
+  },
+  "evaluation": {
+    "threshold": 0.5,
+    "protein_mask": "feature"
+  },
+  "output_dir": "outputs",
+  "checkpoints": {
+    "directory": "attnModels"
+  }
+}

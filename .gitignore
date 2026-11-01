@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+outputs/
+/features/
+config.local.json
+*.log
+data/mmcif_files/
+data/ligands/
+data/aa_embed/
+data/peptide_graph/
+peptide2graph_errors.json

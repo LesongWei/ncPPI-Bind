@@ -2,7 +2,7 @@
 
 Dynamic Class Balancing and Site-Specific Contrastive Learning Enhance Non-Canonical Peptide–Protein Binding Site Prediction
 
-This repository contains the source code, model configuration, cross-validation splits, and residue labels. Demo features and model checkpoints are available from Zenodo.
+This repository contains the source code, model configuration, cross-validation splits, and residue labels. Demo features and model checkpoints are available from Zenodo: [https://doi.org/10.5281/zenodo.23853930](https://doi.org/10.5281/zenodo.23853930).
 
 ## Installation
 
@@ -15,13 +15,7 @@ conda activate ncppi-bind
 
 ## Demo
 
-Download `ncPPI-Bind_demo_200.tar.gz`, `ncPPI-Bind_checkpoints.tar.gz` and `SHA256SUMS` from the Zenodo record and check them:
-
-```bash
-sha256sum -c SHA256SUMS
-```
-
-Extract both archives into the repository root and run the demo:
+Download `ncPPI-Bind_demo_200.tar.gz` and `ncPPI-Bind_checkpoints.tar.gz` from the Zenodo record, extract both archives into the repository root and run the demo:
 
 ```bash
 tar -xzf ncPPI-Bind_demo_200.tar.gz
@@ -35,7 +29,7 @@ python demo.py --mode all --device cuda:0
 | `train` | Trains for one epoch on the demo training set and evaluates the resulting checkpoint. |
 | `all` | Runs `test`, then `train`. |
 
-Outputs are written to `demo/outputs/<run tag>/`. Reference outputs of `--mode test` are provided in `demo/expected/`.
+Outputs are written to `demo/outputs/<run tag>/`.
 
 
 ## Structure files
@@ -90,6 +84,8 @@ Generate embeddings with [ProtT5-XL-half-UniRef50](https://huggingface.co/Rostla
 ```bash
 python train.py --split prot_5fold_5 --fold 1
 python train.py --split pep_5fold_5 --fold all --run-name new_peptide
+python train.py --split random_5fold_5 --fold all --run-name random
+python train.py --split pair_9fold_5 --fold all --run-name both_new
 torchrun --standalone --nproc_per_node=4 train.py --split prot_5fold_5 --fold all
 ```
 

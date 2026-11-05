@@ -10,3 +10,7 @@ data/ligands/
 data/aa_embed/
 data/peptide_graph/
 peptide2graph_errors.json
+cluster/fasta/
+cluster/similarity_cluster_dict/
+cluster/sim_mat_*.npy
+cluster/smith-waterman-src/

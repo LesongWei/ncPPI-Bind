@@ -38,6 +38,11 @@ mmCIF files are not included in this repository. Before data processing, downloa
 
 
 
+## Cross-validation splits
+
+The split files under `data/` were produced by the pipeline in `cluster/`. See `cluster/README.md` to rebuild them or to change the similarity threshold.
+
+
 ## Features for training and testing
 
 Full training and testing require feature files for every complex in the selected split. Feature paths are set in `config.json` and are resolved relative to that file.
